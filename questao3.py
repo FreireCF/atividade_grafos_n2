@@ -1,7 +1,4 @@
 from collections import defaultdict, deque
-
-# ====================== COMPATIBILIDADES ======================
-# doador -> lista de receptores que ele pode doar
 compatibilidade = {
     'O': ['O', 'A', 'B', 'AB'],
     'A': ['A', 'AB'],
@@ -9,15 +6,9 @@ compatibilidade = {
     'AB': ['AB']
 }
 
-# ====================== GRAFO BIPARTIDO ======================
 def construir_grafo(doadores, receptores):
-    """
-    doadores: lista de tipos dos doadores (pode ter repetidos)
-    receptores: lista de tipos dos receptores (pode ter repetidos)
-    """
     grafo = defaultdict(list)
     
-    # Para diferenciar doadores e receptores repetidos, usamos índices
     for i, tipo_doador in enumerate(doadores):
         for j, tipo_receptor in enumerate(receptores):
             if tipo_receptor in compatibilidade.get(tipo_doador, []):
@@ -25,8 +16,6 @@ def construir_grafo(doadores, receptores):
     
     return grafo
 
-
-# ====================== EMPARELHAMENTO MÁXIMO (Hopcroft-Karp simplificado via BFS/DFS) ======================
 def bfs(grafo, pairing, dist):
     queue = deque()
     for u in grafo:
@@ -62,9 +51,9 @@ def dfs(u, grafo, pairing, dist):
 
 
 def emparelhamento_maximo(grafo):
-    pairing = {u: None for u in grafo}          # pairing[doador] = receptor
+    pairing = {u: None for u in grafo}          
     for v in set(v for edges in grafo.values() for v in edges):
-        pairing[v] = None                       # pairing[receptor] = doador
+        pairing[v] = None                   
     
     matching = 0
     dist = {}
@@ -77,9 +66,7 @@ def emparelhamento_maximo(grafo):
     return matching, pairing
 
 
-# ====================== EXEMPLO DE USO ======================
 if __name__ == "__main__":
-    # Exemplo: suponha que temos esses doadores e receptores
     doadores = ['A', 'B', 'AB', 'O']
     receptores = ['A', 'B', 'AB', 'O']
     
